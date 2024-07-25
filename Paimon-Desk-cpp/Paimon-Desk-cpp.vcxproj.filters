@@ -33,6 +33,12 @@
     <ClInclude Include="Brain.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Gif.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Canvas.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -42,6 +48,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Brain.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Gif.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Canvas.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -55,6 +67,12 @@
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="Paimon-Desk-cpp.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="..\..\..\..\OneDrive\Documents\Code Projects\paimon-desk-c\entity\paimonLeft.gif">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="..\..\..\..\OneDrive\Documents\Code Projects\paimon-desk-c\entity\paimonRight.gif">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>

@@ -128,21 +128,27 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Brain.h" />
+    <ClInclude Include="Canvas.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="framework.h" />
+    <ClInclude Include="Gif.h" />
     <ClInclude Include="Paimon-Desk-cpp.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Brain.cpp" />
+    <ClCompile Include="Canvas.cpp" />
     <ClCompile Include="Entity.cpp" />
+    <ClCompile Include="Gif.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Paimon-Desk-cpp.rc" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="..\..\..\..\OneDrive\Documents\Code Projects\paimon-desk-c\entity\paimonLeft.gif" />
+    <Image Include="..\..\..\..\OneDrive\Documents\Code Projects\paimon-desk-c\entity\paimonRight.gif" />
     <Image Include="Paimon-Desk-cpp.ico" />
     <Image Include="small.ico" />
   </ItemGroup>

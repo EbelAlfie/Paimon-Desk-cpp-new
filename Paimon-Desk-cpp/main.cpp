@@ -11,17 +11,15 @@
 // Global Variables:
 HINSTANCE hInst;                                // current instance
 WCHAR szTitle[MAX_LOADSTRING];                  // The title bar text
-WCHAR szWindowClass[MAX_LOADSTRING];            // the main window class name
 
 struct Component {
-    const TCHAR* name = _T("Paimon");
     const wchar_t* rightIdleBody = L"./entity/paimonRight.gif";
     const wchar_t* leftIdleBody = L"./entity/paimonLeft.gif";
 };
 
 // Forward declarations of functions included in this code module:
-ATOM                MyRegisterClass(HINSTANCE hInstance);
-BOOL                InitInstance(HINSTANCE, int);
+ATOM                MyRegisterClass(HINSTANCE hInstance, Entity*);
+BOOL                InitInstance(Entity*, HINSTANCE, int);
 LRESULT CALLBACK    WindowsProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam);
 
 int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
@@ -32,15 +30,19 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     UNREFERENCED_PARAMETER(hPrevInstance);
     UNREFERENCED_PARAMETER(lpCmdLine);
 
-    // TODO: Place code here.
-
     // Initialize global strings
     LoadStringW(hInstance, IDS_APP_TITLE, szTitle, MAX_LOADSTRING);
-    LoadStringW(hInstance, IDC_PAIMONDESKCPP, szWindowClass, MAX_LOADSTRING);
-    MyRegisterClass(hInstance);
+    Component paimon;
+    Entity creature = Entity(
+        szTitle,
+        paimon.rightIdleBody,
+        paimon.leftIdleBody,
+        hInstance
+    );
 
-    // Perform application initialization:
-    if (!InitInstance (hInstance, nCmdShow))
+    MyRegisterClass(hInstance, &creature);
+
+    if (!InitInstance (&creature, hInstance, nCmdShow))
     {
         return FALSE;
     }
@@ -62,23 +64,15 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     return (int) msg.wParam;
 }
 
-
-
 //
 //  FUNCTION: MyRegisterClass()
 //
 //  PURPOSE: Registers the window class.
 //
-ATOM MyRegisterClass(HINSTANCE hInstance)
+ATOM MyRegisterClass(HINSTANCE hInstance, Entity* creature)
 {
-    Component paimon;
-    Entity creature = Entity(
-        paimon.name,
-        paimon.rightIdleBody,
-        paimon.leftIdleBody,
-        hInstance);
 
-    creature.lpfnWndProc = WindowsProc;
+    creature->lpfnWndProc = WindowsProc;
     //WNDCLASSEXW wcex;
 
     //wcex.cbSize = sizeof(WNDCLASSEX);
@@ -95,7 +89,7 @@ ATOM MyRegisterClass(HINSTANCE hInstance)
     wcex.lpszClassName  = szWindowClass;
     wcex.hIconSm        = LoadIcon(wcex.hInstance, MAKEINTRESOURCE(IDI_SMALL));*/
 
-    return RegisterClassExW(&creature);
+    return RegisterClassExW(creature);
 }
 
 //
@@ -108,29 +102,27 @@ ATOM MyRegisterClass(HINSTANCE hInstance)
 //        In this function, we save the instance handle in a global variable and
 //        create and display the main program window.
 //
-BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
+BOOL InitInstance(Entity* entity, HINSTANCE hInstance, int nCmdShow)
 {
    hInst = hInstance; // Store instance handle in our global variable
+   
+   entity->setHandle();
 
-   HWND hWnd = CreateWindowW(szWindowClass, szTitle, WS_OVERLAPPEDWINDOW,
-      CW_USEDEFAULT, 0, CW_USEDEFAULT, 0, nullptr, nullptr, hInstance, nullptr);
-
-   creature.setHandle();
-
-   creature.materializeEntity();
-
-   SetWindowPos(creature.hWindow,
-       HWND_TOPMOST,
-       0, 0, 0, 0,
-       SWP_NOMOVE | SWP_NOSIZE);
-
-   if (!hWnd)
+   if (!entity->hWindow)
    {
       return FALSE;
    }
 
-   ShowWindow(hWnd, nCmdShow);
-   UpdateWindow(hWnd);
+   entity->materializeEntity();
+
+   SetWindowPos(entity->hWindow,
+       HWND_TOPMOST,
+       0, 0, 0, 0,
+       SWP_NOMOVE | SWP_NOSIZE
+   );
+
+   ShowWindow(entity->hWindow, nCmdShow);
+   UpdateWindow(entity->hWindow);
 
    return TRUE;
 }

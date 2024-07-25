@@ -21,7 +21,7 @@ public:
     UINT TIMER_ANIM = 1;
 
     Entity(
-        const TCHAR className[],
+        const WCHAR className[],
         const wchar_t* rightIdleBody,
         const wchar_t* leftIdleBody,
         HINSTANCE hInstance) : WNDCLASSEX()
