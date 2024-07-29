@@ -217,9 +217,17 @@ public:
         );
         if (hr != S_OK) return false;
 
+        D2D1_SIZE_F rtSize = d2dContext->GetSize();
+        D2D1_RECT_F rect = D2D1::Rect(
+            0.0f,
+            0.0f,
+            rtSize.width,
+            rtSize.height
+        );
+
         d2dContext->DrawBitmap(
             image.Get(),
-            nullptr,
+            rect,
             1.0F,
             D2D1_INTERPOLATION_MODE_LINEAR,
             nullptr
