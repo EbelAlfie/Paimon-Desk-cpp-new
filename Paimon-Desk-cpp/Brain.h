@@ -40,9 +40,9 @@ public:
     POINT calculatePosition(POINT target, RECT self) {
         //pivotnya top left (0,0)
         int centerX = abs(self.right - self.left) / 2;
-        int centerY = abs(self.bottom - self.top) / 2;
-        int targX = target.x - centerX;
-        int targY = target.y - centerY;
+        int centerY = self.top;//abs(self.bottom - self.top) / 2;
+        int targX = target.x + centerX;
+        int targY = self.top;  //target.y - centerY;
         //return { self.left, self.top };
         return { centerX + targX, centerY + targY };
     }

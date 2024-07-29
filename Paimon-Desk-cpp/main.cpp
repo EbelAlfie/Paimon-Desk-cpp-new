@@ -13,8 +13,8 @@ HINSTANCE hInst;                                // current instance
 WCHAR szTitle[MAX_LOADSTRING];                  // The title bar text
 
 struct Component {
-    const wchar_t* rightIdleBody = L"./entity/paimonRight.gif";
-    const wchar_t* leftIdleBody = L"./entity/paimonLeft.gif";
+    const wchar_t* rightIdleBody = L"C:\\Users\\davis\\OneDrive\\Documents\\Code Projects\\paimon-desk-c\\entity\\paimonRight.gif";
+    const wchar_t* leftIdleBody = L"C:\\Users\\davis\\OneDrive\\Documents\\Code Projects\\paimon-desk-c\\entity\\paimonLeft.gif";
 };
 
 // Forward declarations of functions included in this code module:

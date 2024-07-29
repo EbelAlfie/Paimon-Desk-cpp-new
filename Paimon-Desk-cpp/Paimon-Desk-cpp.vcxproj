@@ -149,6 +149,8 @@
   <ItemGroup>
     <Image Include="..\..\..\..\OneDrive\Documents\Code Projects\paimon-desk-c\entity\paimonLeft.gif" />
     <Image Include="..\..\..\..\OneDrive\Documents\Code Projects\paimon-desk-c\entity\paimonRight.gif" />
+    <Image Include="..\..\..\..\OneDrive\Documents\Code Projects\paimon-desk-c\res\icon.ico" />
+    <Image Include="icon1.ico" />
     <Image Include="Paimon-Desk-cpp.ico" />
     <Image Include="small.ico" />
   </ItemGroup>

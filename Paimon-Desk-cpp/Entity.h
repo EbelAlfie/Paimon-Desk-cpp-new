@@ -4,6 +4,7 @@
 #include "./Brain.cpp"
 #include "./Gif.cpp"
 #include "./Canvas.cpp"
+#include "./resource.h"
 
 class Entity : public WNDCLASSEXW {
 public:
@@ -16,6 +17,9 @@ public:
     Gif* rightBody;
     Gif* leftBody;
 
+    Gif* currentBody;
+
+    int totalFrame = 0;
     int frameIdx = 0;
     UINT move = 0;
     UINT TIMER_ANIM = 1;
@@ -28,13 +32,14 @@ public:
     {
         this->lpszClassName = className;
         this->hInstance = hInstance;
-        this->hIcon = LoadIcon(NULL, _T("../res/icon.ico"));
+        this->hIcon = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_ICON1));
         this->hCursor = LoadCursor(NULL, IDC_ARROW);
         this->style = CS_HREDRAW | CS_VREDRAW;
         this->cbSize = sizeof(WNDCLASSEX);
 
         this->rightBody = new Gif(rightIdleBody);
         this->leftBody = new Gif(leftIdleBody);
+        this->currentBody = this->rightBody;
     }
 
     bool materializeEntity() {
@@ -66,7 +71,7 @@ public:
             this->lpszClassName,
             this->lpszClassName,
             WS_POPUP | WS_VISIBLE,
-            300, 200, 200, 200,//150, 150,
+            300, 200, 150, 150,
             nullptr,
             nullptr,
             this->hInstance,
@@ -82,15 +87,15 @@ public:
 
     void animateEntity(HWND hwnd) {
         ComPtr<ID2D1Bitmap> frame =
-            this->rightBody->getBitmapFrameAt(
+            this->currentBody->getBitmapFrameAt(
                 frameIdx,
                 windowCanvas->d2dContext
             );
 
         windowCanvas->draw(frame);
 
-        setTimer(hwnd, 123, this->rightBody->getFrameDelay());
-        frameIdx = (frameIdx + 1) % this->rightBody->getFrameCount();
+        frameIdx = (frameIdx + 1) % this->currentBody->getFrameCount(); //this.totalFrame ;
+        setTimer(hwnd, 123, this->currentBody->getFrameDelay());
     }
 
     void moveEntity(HWND hwnd) {
@@ -127,14 +132,15 @@ public:
             return 0;
         case WM_PAINT:
             animateEntity(hwnd);
-            //moveEntity(hwnd) ;
+            ValidateRect(hwnd, NULL);
             return 0;
         case WM_DISPLAYCHANGE:
+            moveEntity(hwnd);
             InvalidateRect(hwnd, NULL, FALSE);
             break;
         case WM_TIMER:
             KillTimer(hwnd, 123);
-            setTimer(hwnd, 123, this->rightBody->getFrameDelay());
+            setTimer(hwnd, 123, this->currentBody->getFrameDelay());
             InvalidateRect(hwnd, NULL, FALSE);
         }
         return DefWindowProc(hwnd, message, wParam, lParam);

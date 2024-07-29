@@ -12,7 +12,7 @@ private:
     ComPtr<IWICBitmapDecoder> decoder;
 
     const wchar_t* imgPath;
-    UINT* frameCount = nullptr;
+    UINT frameCount = 1;
     UINT frameDelay = 0;
 
 public:
@@ -40,22 +40,22 @@ public:
         if (hr != S_OK) return false;
 
         //total number of frames
-        hr = decoder->GetFrameCount(frameCount);
+        hr = decoder->GetFrameCount(&frameCount);
         if (hr != S_OK) return false;
 
-        if (frameCount == nullptr) {
-            *frameCount = 1;
+        if (hr != S_OK) {
+            frameCount = 1;
         }
 
         return hr == S_OK;
     }
 
     UINT getFrameCount() {
-        return (frameCount != nullptr) ? *frameCount : 1;
+        return (frameCount != 1) ? frameCount : 1;
     }
 
     UINT getFrameDelay() {
-        return (frameDelay != NULL) ? frameDelay : 0;
+        return (frameDelay != NULL) ? frameDelay : 40;
     }
 
     ComPtr<ID2D1Bitmap> getBitmapFrameAt(
@@ -100,11 +100,20 @@ public:
             L"/grctlext/Delay",
             &propValue
         );
-        if (hr != S_OK || propValue.vt != VT_UI2) return nullptr;
 
-        hr = UIntMult(propValue.uiVal, 10, &frameDelay);
+        if (hr == S_OK)
+        {
+            hr = (propValue.vt == VT_UI2 ? S_OK : E_FAIL);
+            if (hr == S_OK)
+            {
+                hr = UIntMult(propValue.uiVal, 10, &frameDelay);
+            }
+        }
+        else {
+            frameDelay = 0;
+        }
+
         PropVariantClear(&propValue);
-        if (hr != S_OK) return nullptr;
 
         formatConverter->Release();
 
