@@ -102,7 +102,14 @@ public:
         POINT targ = entityBrain->getTargetPosition(hwnd, 1);
         RECT bodyPos = entityBrain->getBodyPosition(hwnd);
         POINT moveTo = entityBrain->calculatePosition(targ, bodyPos);
-        MoveWindow(hwnd, moveTo.x, moveTo.y, 150, 150, TRUE);
+        SetWindowPos(
+            hwnd,
+            HWND_TOPMOST,
+            moveTo.x,
+            moveTo.y,
+            0, 0,
+            SWP_NOSIZE | SWP_NOZORDER
+        );
     }
 
     void disMaterializeEntity() {
@@ -132,10 +139,10 @@ public:
             return 0;
         case WM_PAINT:
             animateEntity(hwnd);
+            moveEntity(hwnd);
             ValidateRect(hwnd, NULL);
             return 0;
         case WM_DISPLAYCHANGE:
-            moveEntity(hwnd);
             InvalidateRect(hwnd, NULL, FALSE);
             break;
         case WM_TIMER:
